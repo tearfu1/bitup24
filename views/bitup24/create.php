@@ -4,7 +4,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Создать событие</title>
-	<link rel="stylesheet" href="create-event.css">
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/ui.vue@latest/dist/bundle.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/main.core@latest/dist/main.core.bundle.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/main.core.ajax@latest/dist/main.core.ajax.bundle.js"></script>
 	<style>
 		body {
 			background: #e6f1ee;
@@ -20,7 +23,7 @@
 			border-radius: 14px;
 			padding-bottom: 32px;
 			box-sizing: border-box;
-			box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+			box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 		}
 
 		.title {
@@ -64,7 +67,7 @@
 		.left, .right {
 			background: #fff;
 			border-radius: 14px;
-			box-shadow: 0 1px 6px rgba(0,0,0,0.02);
+			box-shadow: 0 1px 6px rgba(0, 0, 0, 0.02);
 			padding: 22px 28px 18px 20px;
 		}
 
@@ -332,16 +335,26 @@
 				flex-direction: column;
 				gap: 12px;
 			}
+
 			.left, .right {
 				min-width: unset;
 				max-width: unset;
 				width: 100%;
 				padding: 18px 11px;
 			}
+
 			.container {
 				padding: 0 3px 32px 3px;
 			}
 		}
+
+		.row input[type="number"] {
+			text-align: center;
+		}
+		.radio {
+			margin-bottom: 8px;
+		}
+
 	</style>
 </head>
 <body>
@@ -360,9 +373,9 @@
 			<div class="form-group">
 				<label>Даты проведения</label>
 				<div class="date-range">
-					<input type="datetime-local" value="2025-07-17T10:15" class="input">
+					<input type="datetime-local" id="start-date" class="input">
 					<span class="date-sep">—</span>
-					<input type="datetime-local" value="2025-07-23T12:15" class="input">
+					<input type="datetime-local" id="end-date" class="input">
 				</div>
 			</div>
 			<div class="form-group">
@@ -373,30 +386,27 @@
 						<span class="custom-radio"></span>
 						Ограниченное
 					</label>
-					<input type="number" class="input small" placeholder="от">
-					<input type="number" class="input small" placeholder="до">
+					<input type="number" class="input small" id="min-participants" placeholder="от">
+					<input type="number" class="input small" id="max-participants" placeholder="до">
 				</div>
 			</div>
 			<div class="form-group">
 				<label>Назначать заряды</label>
 				<div class="charges-row">
 					<label class="radio checked">
-						<input type="radio" name="charges" checked>
+						<input type="radio" name="charges" value="5" checked>
 						<span class="custom-radio"></span>
-						5 зарядов
-						<span class="caption">Регулярные</span>
+						<span>5 зарядов <span class="caption">Регулярные</span></span>
 					</label>
 					<label class="radio">
-						<input type="radio" name="charges">
+						<input type="radio" name="charges" value="10">
 						<span class="custom-radio"></span>
-						10 зарядов
-						<span class="caption">Болельщик</span>
+						<span>10 зарядов <span class="caption">Болельщик</span></span>
 					</label>
 					<label class="radio">
-						<input type="radio" name="charges">
+						<input type="radio" name="charges" value="15">
 						<span class="custom-radio"></span>
-						15 зарядов
-						<span class="caption">Участник</span>
+						<span>15 зарядов <span class="caption">Участник</span></span>
 					</label>
 				</div>
 			</div>
@@ -407,18 +417,18 @@
 			<div class="form-group">
 				<div class="row">
 					<label class="checkbox">
-						<input type="checkbox" checked>
+						<input type="checkbox" id="create-chat" checked>
 						<span class="custom-checkbox"></span>
 						Создать отдельный чат
 					</label>
 					<label class="checkbox">
-						<input type="checkbox">
+						<input type="checkbox" id="chat-post">
 						<span class="custom-checkbox"></span>
 						Сделать пост в чате события
 					</label>
 				</div>
 				<label class="checkbox">
-					<input type="checkbox">
+					<input type="checkbox" id="feed-post">
 					<span class="custom-checkbox"></span>
 					Сделать пост в ленте
 				</label>
@@ -448,10 +458,47 @@
 		</div>
 	</div>
 	<div class="form-actions">
-		<button class="btn btn-green">СОХРАНИТЬ</button>
+		<button class="btn btn-green" id="save-btn">СОХРАНИТЬ</button>
 		<button class="btn btn-green-outline">ОТПРАВИТЬ НА ОДОБРЕНИЕ</button>
 		<button class="btn btn-text">ОТМЕНИТЬ</button>
 	</div>
 </div>
+
+<script>
+	document.getElementById('save-btn').addEventListener('click', function () {
+		const name = document.getElementById('event-title').value.trim();
+		const description = document.getElementById('desc').value.trim();
+		const startDate = document.getElementById('start-date').value.replace('T', ' ');
+		const endDate = document.getElementById('end-date').value.replace('T', ' ');
+		const location = document.getElementById('address').value.trim();
+		const points = parseInt(document.querySelector('input[name="charges"]:checked').value, 10) || 0;
+		const maxParticipants = parseInt(document.getElementById('max-participants').value, 10) || 0;
+
+		if (!name || !startDate || !endDate) {
+			alert('Заполните все обязательные поля!');
+			return;
+		}
+
+		BX.ajax.runAction('bitup24.api.BitUp24.addEvent', {
+			data: {
+				data: {
+					name: name,
+					description: description,
+					start_date: startDate,
+					end_date: endDate,
+					location: location,
+					points_for_visit: points,
+					max_participants: maxParticipants
+				}
+			}
+		}).then(response => {
+			console.log('Создано событие ID=', response.data.eventId);
+			window.location.href = '/bitup24/'; // редирект на главную
+		}).catch(error => {
+			console.error(error);
+			alert('Ошибка при создании события');
+		});
+	});
+</script>
 </body>
 </html>

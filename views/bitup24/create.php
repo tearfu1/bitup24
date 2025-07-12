@@ -1,4 +1,3 @@
-<?php ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -10,13 +9,11 @@
 	<script src="https://cdn.jsdelivr.net/npm/main.core.ajax@latest/dist/main.core.ajax.bundle.js"></script>
 	<style>
 		body {
-			background: #e6f1ee;
 			font-family: 'Segoe UI', 'Arial', sans-serif;
 			margin: 0;
 		}
 
 		.container {
-			background: #f6f9fa;
 			width: 98vw;
 			max-width: 1360px;
 			margin: 8px auto;
@@ -65,16 +62,13 @@
 		}
 
 		.left, .right {
-			background: #fff;
 			border-radius: 14px;
 			box-shadow: 0 1px 6px rgba(0, 0, 0, 0.02);
-			padding: 22px 28px 18px 20px;
+			padding: 24px;
 		}
 
 		.left {
 			flex: 1.1;
-			max-width: 440px;
-			min-width: 380px;
 			display: flex;
 			flex-direction: column;
 			gap: 22px;
@@ -88,11 +82,29 @@
 			min-height: 300px;
 		}
 
-		.form-group {
-			margin-bottom: 10px;
+		fieldset {
+			border: none;
+			padding: 0;
+			margin: 0;
 		}
 
-		.form-group label {
+		legend {
+			display: block;
+			font-size: 1rem;
+			color: #8f9ca5;
+			margin-bottom: 10px;
+			font-weight: 400;
+			padding: 0;
+		}
+
+		.form-group {
+			margin-bottom: 20px;
+		}
+		.form-group:last-child {
+			margin-bottom: 0;
+		}
+
+		.form-group label:not(.radio):not(.checkbox) {
 			display: block;
 			font-size: 1rem;
 			color: #8f9ca5;
@@ -121,6 +133,10 @@
 			width: 70px;
 			display: inline-block;
 			margin-left: 8px;
+		}
+
+		.input[type="number"] {
+			text-align: center;
 		}
 
 		.date-range {
@@ -154,9 +170,9 @@
 			position: relative;
 			font-size: 1rem;
 			cursor: pointer;
-			padding-left: 25px;
-			margin-right: 10px;
+			padding-left: 28px;
 			user-select: none;
+			margin-bottom: 12px;
 		}
 
 		.radio input,
@@ -187,11 +203,6 @@
 		}
 
 		.radio input:checked ~ .custom-radio {
-			border: 5px solid #c1f455;
-			background: #fff;
-		}
-
-		.radio.checked .custom-radio {
 			border: 5px solid #c1f455;
 			background: #fff;
 		}
@@ -235,7 +246,7 @@
 			background: #fff;
 			border-radius: 16px;
 			border: 1.5px solid #e4e9ed;
-			padding: 6px 9px 6px 9px;
+			padding: 6px 9px;
 			min-height: 128px;
 			display: flex;
 			flex-direction: column;
@@ -273,10 +284,10 @@
 			font-size: 1rem;
 			font-family: inherit;
 			background: transparent;
+			outline: none;
 		}
 
 		.form-actions {
-			background: #f6f9fa;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -347,14 +358,6 @@
 				padding: 0 3px 32px 3px;
 			}
 		}
-
-		.row input[type="number"] {
-			text-align: center;
-		}
-		.radio {
-			margin-bottom: 8px;
-		}
-
 	</style>
 </head>
 <body>
@@ -371,30 +374,30 @@
 				<input type="text" id="event-title" class="input" placeholder="">
 			</div>
 			<div class="form-group">
-				<label>Даты проведения</label>
+				<label for="start-date">Даты проведения</label>
 				<div class="date-range">
 					<input type="datetime-local" id="start-date" class="input">
 					<span class="date-sep">—</span>
 					<input type="datetime-local" id="end-date" class="input">
 				</div>
 			</div>
-			<div class="form-group">
-				<label>Количество участников</label>
+			<fieldset class="form-group">
+				<legend>Количество участников</legend>
 				<div class="row">
-					<label class="radio checked">
-						<input type="radio" name="participants" checked>
+					<label class="radio">
+						<input type="radio" name="participants">
 						<span class="custom-radio"></span>
 						Ограниченное
 					</label>
 					<input type="number" class="input small" id="min-participants" placeholder="от">
 					<input type="number" class="input small" id="max-participants" placeholder="до">
 				</div>
-			</div>
-			<div class="form-group">
-				<label>Назначать заряды</label>
+			</fieldset>
+			<fieldset class="form-group">
+				<legend>Назначать заряды</legend>
 				<div class="charges-row">
-					<label class="radio checked">
-						<input type="radio" name="charges" value="5" checked>
+					<label class="radio">
+						<input type="radio" name="charges" value="5">
 						<span class="custom-radio"></span>
 						<span>5 зарядов <span class="caption">Регулярные</span></span>
 					</label>
@@ -409,12 +412,13 @@
 						<span>15 зарядов <span class="caption">Участник</span></span>
 					</label>
 				</div>
-			</div>
+			</fieldset>
 			<div class="form-group">
 				<label for="address">Место проведения</label>
 				<input type="text" id="address" class="input" placeholder="Адрес">
 			</div>
-			<div class="form-group">
+			<fieldset class="form-group">
+				<legend>Дополнительные действия</legend>
 				<div class="row">
 					<label class="checkbox">
 						<input type="checkbox" id="create-chat" checked>
@@ -432,7 +436,7 @@
 					<span class="custom-checkbox"></span>
 					Сделать пост в ленте
 				</label>
-			</div>
+			</fieldset>
 		</div>
 		<div class="right">
 			<div class="desc-header">
@@ -471,11 +475,18 @@
 		const startDate = document.getElementById('start-date').value.replace('T', ' ');
 		const endDate = document.getElementById('end-date').value.replace('T', ' ');
 		const location = document.getElementById('address').value.trim();
-		const points = parseInt(document.querySelector('input[name="charges"]:checked').value, 10) || 0;
+
+		const chargesRadio = document.querySelector('input[name="charges"]:checked');
+		if (!chargesRadio) {
+			alert('Пожалуйста, выберите количество зарядов.');
+			return;
+		}
+		const points = parseInt(chargesRadio.value, 10);
+
 		const maxParticipants = parseInt(document.getElementById('max-participants').value, 10) || 0;
 
 		if (!name || !startDate || !endDate) {
-			alert('Заполните все обязательные поля!');
+			alert('Заполните все обязательные поля (Название, Даты проведения)!');
 			return;
 		}
 

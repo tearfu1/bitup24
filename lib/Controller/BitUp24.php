@@ -14,11 +14,28 @@ final class BitUp24 extends Controller
 			'view' => [
 				'prefilters' => [],
 			],
+			'getCards' => [
+				'prefilters' => [],
+			],
 		];
 	}
 
 	public function viewAction(): View
 	{
 		return $this->renderView('bitup24/index');
+	}
+
+	public function getCardsAction(): array
+	{
+		return [
+			'cards'=>[
+				[
+					"name"=>'aaaa',
+				],
+				[
+					"name"=>'bbbb',
+				],
+			]
+		];
 	}
 }

@@ -131,7 +131,7 @@ final class EventService
 	}
 
 	/**
-	 * Получить детальные данные события
+	 * Получ��ть детальные данные события
 	 *
 	 * @param int $eventId
 	 * @return array|null
@@ -141,6 +141,85 @@ final class EventService
 		return $this->repository->getEventById($eventId);
 	}
 
+	/**
+	 * Зарегистрировать пользователя на событие
+	 *
+	 * @param int $userId
+	 * @param int $eventId
+	 * @return Result
+	 */
+	public function registerUserForEvent(int $userId, int $eventId): Result
+	{
+		$result = new Result();
 
+		// Проверяем, существует ли событие
+		$event = $this->repository->getEventById($eventId);
+		if (!$event) {
+			$result->addError(new Error('Событие не найдено'));
+			return $result;
+		}
 
+		// Проверяем, не зарегистрирован ли уже пользователь
+		if ($this->repository->isUserRegisteredForEvent($userId, $eventId)) {
+			$result->addError(new Error('Вы уже зарегистрированы на это событие'));
+			return $result;
+		}
+
+		// Проверяем лимит участников
+		if ($event['max_participants'] > 0) {
+			$currentCount = $this->repository->getEventParticipantsCount($eventId);
+			if ($currentCount >= $event['max_participants']) {
+				$result->addError(new Error('Достигнут максимальный лимит участников'));
+				return $result;
+			}
+		}
+
+		try {
+			$registrationId = $this->repository->registerUserForEvent($userId, $eventId);
+			$result->setData(['registrationId' => $registrationId]);
+		} catch (\Throwable $e) {
+			$result->addError(new Error('Ошибка при регистрации на событие: ' . $e->getMessage()));
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Отменить регистрацию пользователя на событие
+	 *
+	 * @param int $userId
+	 * @param int $eventId
+	 * @return Result
+	 */
+	public function unregisterUserFromEvent(int $userId, int $eventId): Result
+	{
+		$result = new Result();
+
+		// Проверяем, зарегистрирован ли пользователь
+		if (!$this->repository->isUserRegisteredForEvent($userId, $eventId)) {
+			$result->addError(new Error('Вы не зарегистрированы на это событие'));
+			return $result;
+		}
+
+		try {
+			$this->repository->unregisterUserFromEvent($userId, $eventId);
+			$result->setData(['success' => true]);
+		} catch (\Throwable $e) {
+			$result->addError(new Error('Ошибка при отмене регистрации: ' . $e->getMessage()));
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Проверить статус регистрации пользователя на событие
+	 *
+	 * @param int $userId
+	 * @param int $eventId
+	 * @return bool
+	 */
+	public function isUserRegisteredForEvent(int $userId, int $eventId): bool
+	{
+		return $this->repository->isUserRegisteredForEvent($userId, $eventId);
+	}
 }

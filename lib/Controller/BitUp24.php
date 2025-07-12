@@ -34,6 +34,9 @@ final class BitUp24 extends Controller
 				'prefilters' => [],
 			],
 			'addEvent' => ['prefilters' => []],
+			'registerForEvent' => ['prefilters' => []],
+			'unregisterFromEvent' => ['prefilters' => []],
+			'checkEventRegistration' => ['prefilters' => []],
 
 			'viewCreate' => [
 				'prefilters' => [],
@@ -157,5 +160,45 @@ final class BitUp24 extends Controller
 		}
 
 		return $result;
+	}
+
+	/**
+	 * AJAX: зарегистрировать текущего пользователя на событие
+	 *
+	 * @param int $eventId ID события
+	 * @return Result
+	 */
+	public function registerForEventAction(int $eventId): Result
+	{
+		$userId = CurrentUser::get()->getId();
+		return (new EventService())->registerUserForEvent($userId, $eventId);
+	}
+
+	/**
+	 * AJAX: отменить регистрацию текущего пользователя на событие
+	 *
+	 * @param int $eventId ID события
+	 * @return Result
+	 */
+	public function unregisterFromEventAction(int $eventId): Result
+	{
+		$userId = CurrentUser::get()->getId();
+		return (new EventService())->unregisterUserFromEvent($userId, $eventId);
+	}
+
+	/**
+	 * AJAX: проверить статус регистрации текущего пользователя на событие
+	 *
+	 * @param int $eventId ID события
+	 * @return array
+	 */
+	public function checkEventRegistrationAction(int $eventId): array
+	{
+		$userId = CurrentUser::get()->getId();
+		$service = new EventService();
+
+		return [
+			'isRegistered' => $service->isUserRegisteredForEvent($userId, $eventId)
+		];
 	}
 }

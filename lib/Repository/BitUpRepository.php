@@ -176,4 +176,75 @@ class BitUpRepository
 
 		return $event;
 	}
+
+	/**
+	 * Проверить, зарегистрирован ли пользователь на событие
+	 */
+	public function isUserRegisteredForEvent(int $userId, int $eventId): bool
+	{
+		$userId = (int)$userId;
+		$eventId = (int)$eventId;
+
+		$sql = "
+			SELECT COUNT(*) as cnt
+			FROM b_bitup_event_registrations
+			WHERE user_id = {$userId} AND event_id = {$eventId}
+		";
+
+		$result = $this->db->query($sql)->fetch();
+		return (int)$result['cnt'] > 0;
+	}
+
+	/**
+	 * Получить количество зарегистрированных участников события
+	 */
+	public function getEventParticipantsCount(int $eventId): int
+	{
+		$eventId = (int)$eventId;
+
+		$sql = "
+			SELECT COUNT(*) as cnt
+			FROM b_bitup_event_registrations
+			WHERE event_id = {$eventId} AND status = 'approved'
+		";
+
+		$result = $this->db->query($sql)->fetch();
+		return (int)$result['cnt'];
+	}
+
+	/**
+	 * Зарегистрировать пользователя на событие
+	 */
+	public function registerUserForEvent(int $userId, int $eventId): int
+	{
+		$userId = (int)$userId;
+		$eventId = (int)$eventId;
+		$now = new DateTime();
+
+		$fields = [
+			'user_id' => $userId,
+			'event_id' => $eventId,
+			'status' => 'approved',
+			'registration_date' => $now
+		];
+
+		return $this->db->add('b_bitup_event_registrations', $fields);
+	}
+
+	/**
+	 * Отменить регистрацию пользователя на событие
+	 */
+	public function unregisterUserFromEvent(int $userId, int $eventId): bool
+	{
+		$userId = (int)$userId;
+		$eventId = (int)$eventId;
+
+		$sql = "
+			DELETE FROM b_bitup_event_registrations
+			WHERE user_id = {$userId} AND event_id = {$eventId}
+		";
+
+		$this->db->query($sql);
+		return true;
+	}
 }

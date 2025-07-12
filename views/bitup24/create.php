@@ -365,7 +365,6 @@
 	<h1 class="title">Создать событие</h1>
 	<div class="tabs">
 		<button class="tab active">Общая информация</button>
-		<button class="tab">Рейтинг</button>
 	</div>
 	<div class="main-form">
 		<div class="left">

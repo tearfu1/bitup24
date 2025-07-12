@@ -418,7 +418,7 @@ $event = (new \Bitrix\BitUp24\Service\EventService())->getEventDetail($eventId);
 			}
 		})
 			.then((response) => {
-				console.log('Успешно:', response);
+				window.location.href = '/bitup24/'; // редирект на главную
 			})
 			.catch((error) => {
 				console.error('Ошибка:', error);

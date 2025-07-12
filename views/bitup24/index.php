@@ -247,51 +247,17 @@
 <div class="scroll-container">
 	<div class="scroll-button left">&#9664;</div>
 	<div class="bitup-event-container">
-		<div class="bitup-event-card">
-			<div class="bitup-event-card__title">Название событи</div>
-			<div class="bitup-event-card__date">Дата события</div>
-			<div class="bitup-event-card__participants">
-				<div class="bitup-event-card__participants-icon">👥</div>
-				<div class="bitup-event-card__participants-count">0</div>
-			</div>
-		</div>
-		<div class="bitup-event-card">
-			<div class="bitup-event-card__title">Название событи</div>
-			<div class="bitup-event-card__date">Дата события</div>
-			<div class="bitup-event-card__participants">
-				<div class="bitup-event-card__participants-icon">👥</div>
-				<div class="bitup-event-card__participants-count">0</div>
-			</div>
-		</div>
-		<div class="bitup-event-card">
-			<div class="bitup-event-card__title">Название событи</div>
-			<div class="bitup-event-card__date">Дата события</div>
-			<div class="bitup-event-card__participants">
-				<div class="bitup-event-card__participants-icon">👥</div>
-				<div class="bitup-event-card__participants-count">0</div>
-			</div>
-		</div>
-		<div class="bitup-event-card">
-			<div class="bitup-event-card__title">Название событи</div>
-			<div class="bitup-event-card__date">Дата события</div>
-			<div class="bitup-event-card__participants">
-				<div class="bitup-event-card__participants-icon">👥</div>
-				<div class="bitup-event-card__participants-count">0</div>
-			</div>
-		</div>
-		<div class="bitup-event-card">
-			<div class="bitup-event-card__title">Название событи</div>
-			<div class="bitup-event-card__date">Дата события</div>
-			<div class="bitup-event-card__participants">
-				<div class="bitup-event-card__participants-icon">👥</div>
-				<div class="bitup-event-card__participants-count">0</div>
-			</div>
-		</div>
 	</div>
 	<div class="scroll-button right">&#9654;</div>
 </div>
 
 <script>
+	function escapeHtml(text) {
+		const div = document.createElement('div');
+		div.textContent = text;
+		return div.innerHTML;
+	}
+
 	document.addEventListener('DOMContentLoaded', () => {
 		const scrollContainer = document.querySelector('.bitup-event-container');
 		const leftButton = document.querySelector('.scroll-button.left');
@@ -305,6 +271,30 @@
 
 		rightButton.addEventListener('mouseenter', () => {
 			scrollContainer.scrollBy({ left: scrollContainer.scrollWidth, behavior: 'smooth' });
+		});
+	});
+
+	BX.ajax.runAction('bitup24.api.BitUp24.getCards').then(response => {
+		const container = document.querySelector('.bitup-event-container'); // Находим контейнер для карточек
+		const cards = response.data; // Предполагаем, что данные находятся в response.data
+
+		cards.forEach(card => {
+			// Создаем новый div для каждой карточки
+			const cardDiv = document.createElement('div');
+			cardDiv.classList.add('bitup-event-card');
+
+			// Заполняем данными
+			cardDiv.innerHTML = `
+            <div class="bitup-event-card__title">${escapeHtml(card.title)}</div>
+            <div class="bitup-event-card__date">${escapeHtml(card.date)}</div>
+            <div class="bitup-event-card__participants">
+                <div class="bitup-event-card__participants-icon">👥</div>
+                <div class="bitup-event-card__participants-count">${escapeHtml(card.participantsCount) || 0}</div>
+            </div>
+        `;
+
+			// Добавляем созданный div в контейнер
+			container.appendChild(cardDiv);
 		});
 	});
 </script>

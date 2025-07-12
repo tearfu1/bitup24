@@ -64,10 +64,21 @@ final class BitUp24 extends Controller
 	public function getCardsAction(): array
 	{
 		return [
-			'cards' => [
-				["name" => 'aaaa'],
-				["name" => 'bbbb'],
-			]
+				[
+					"title" => 'aa33333aa',
+					"date" => '123',
+					"participantsCount" => '123321',
+				],
+				[
+					"title" => 'aa33333aa',
+					"date" => '123',
+					"participantsCount" => '123321',
+				],
+				[
+					"title" => 'aa33333aa',
+					"date" => '123',
+					"participantsCount" => '123321',
+				],
 		];
 	}
 

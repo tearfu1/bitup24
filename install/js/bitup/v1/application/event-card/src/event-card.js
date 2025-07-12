@@ -14,8 +14,8 @@ import { fileService, EntityTypes } from 'tasks.v2.provider.service.file-service
 import './add-task-button.css';
 
 // @vue/component
-export const BitupEventCard = {
-	name: 'BitupEventCard',
+export const EventCard = {
+	name: 'EventCard',
 	// components: {
 	// 	UiButton,
 	// 	Hint,
@@ -155,7 +155,7 @@ export const BitupEventCard = {
 	// 	},
 	// },
 	template: `
-		<div class="bitup-event-card">
+		<div class="event-card">
 			<div class="title">Супер название</div>
 				<div class="date">Супер дата</div>
 				<div class="participants">

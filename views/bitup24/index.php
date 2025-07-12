@@ -5,12 +5,12 @@
 		color: white;
 		padding: 20px;
 		border-radius: 10px;
-		width: 250px;
+		width: 400px;
 		font-family: Arial, sans-serif;
 		cursor: pointer;
 		transition: all 0.3s ease;
 		position: relative;
-		min-width: 250px; /* Минимальная ширина каждой карточки */
+		min-width: 400px; /* Минимальная ширина каждой карточки */
 		border: 1px solid #ccc; /* Пример границы */
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Пример теней для карточек */
 		box-sizing: border-box;
@@ -96,7 +96,7 @@
 	@media (max-width: 768px) {
 		.bitup-event-card {
 			width: 100%;
-			max-width: 300px;
+			max-width: 400px;
 		}
 
 		.bitup-main-events,
@@ -206,7 +206,7 @@
 	}
 
 	.bitup-event-card {
-		min-width: 250px;
+		min-width: 400px;
 		/* Другие стили карточек */
 		margin: 0 5px; /* Отступы между карточками */
 	}
@@ -236,7 +236,7 @@
 	}
 
 	.bitup-event-card {
-		min-width: 250px;
+		min-width: 400px;
 		margin: 0 5px;
 		/* Пример высоты карточек */
 		height: 150px; /* Это значение должно быть таким же, как у стрелок */

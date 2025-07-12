@@ -89,7 +89,7 @@ final class BitUp24 extends Controller
 				"id" => $event['id'],
 				"title" => $event['name'],
 				"description" => $event['description'],
-				"participantsCount" => $event['approved_participants'],
+				"participantsCount" => $event['stats']['approved_participants'],
 			];
 		}
 

@@ -38,6 +38,10 @@ final class BitUp24 extends Controller
 			'viewCreate' => [
 				'prefilters' => [],
 			],
+			'viewDetail' => [
+				'prefilters' => [],
+			],
+
 
 		];
 	}
@@ -50,6 +54,11 @@ final class BitUp24 extends Controller
 	public function viewCreateAction(): View
 	{
 		return $this->renderView('bitup24/create');
+	}
+
+	public function viewDetailAction(int $eventId): View
+	{
+		return $this->renderView('bitup24/detail');
 	}
 
 	public function getCardsAction(): array

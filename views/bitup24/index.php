@@ -6,6 +6,25 @@ $APPLICATION->SetTitle("BitUp24");
 ?>
 
 <style>
+	.custom-button {
+		background-color: #41a65e;
+		color: white;
+		border: none;
+		padding: 10px 20px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		margin: 4px 2px;
+		cursor: pointer;
+		border-radius: 5px;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -1px 0 rgba(0, 0, 0, 0.2) inset;
+	}
+
+	.custom-button:hover {
+		background-color: #378c4e;
+	}
+
 	/* Основные стили для карточки события */
 	.bitup-event-card {
 		background-color: #22a746;
@@ -255,6 +274,8 @@ $APPLICATION->SetTitle("BitUp24");
 		color: inherit; /* Наследует цвет родителя */
 	}
 </style>
+
+<a href="/bitup24/event/create/" style="margin-bottom: 10px" class="custom-button">Создать</a>
 
 <div class="scroll-container">
 	<div class="scroll-button left">&#9664;</div>

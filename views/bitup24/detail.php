@@ -9,7 +9,6 @@ global $APPLICATION;
 
 $APPLICATION->SetTitle("BitUp24 Детальная страница");
 
-
 $eventId = isset($_GET['eventId']) ? (int)$_GET['eventId'] : 0;
 if ($eventId <= 0) {
 	throw new \Bitrix\Main\SystemException("Не передан eventId");

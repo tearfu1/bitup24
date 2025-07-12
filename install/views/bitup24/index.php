@@ -1,11 +1,11 @@
 <?php
 
-global $APPLICATION;
-
-$APPLICATION->IncludeComponent(
-	'bitrix:bitup24.main',
-	'',
-	[],
-);
+//global $APPLICATION;
+//
+//$APPLICATION->IncludeComponent(
+//	'bitrix:bitup24.main',
+//	'',
+//	[],
+//);
 
 ?>

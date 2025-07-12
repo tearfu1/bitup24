@@ -3,6 +3,7 @@
 namespace Bitrix\BitUp24\Controller;
 
 use Bitrix\Main\Engine\Controller;
+use Bitrix\Main\Engine\Response\Render\View;
 
 final class BitUp24 extends Controller
 {
@@ -16,8 +17,8 @@ final class BitUp24 extends Controller
 		];
 	}
 
-	public function viewAction(): mixed
+	public function viewAction(): View
 	{
-		return $this->renderView('bitup/index');
+		return $this->renderView('bitup24/index');
 	}
 }

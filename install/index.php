@@ -121,29 +121,11 @@ class bitup24 extends CModule
 	{
 		global $USER, $APPLICATION, $step;
 
-		if (!$USER->isAdmin())
-		{
+		if (!$USER->isAdmin()) {
 			return;
 		}
-
-		$step = (int)$step;
-		if ($step < 2)
-		{
-			$APPLICATION->IncludeAdminFile(
-				Loc::getMessage('HACK_BITUP24_UNINSTALL_TITLE'),
-				$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . $this->MODULE_ID . '/install/unstep1.php'
-			);
-		}
-		elseif ($step === 2)
-		{
-			$this->uninstallDB();
-			$this->uninstallFiles();
-			$this->uninstallEvents();
-
-			$APPLICATION->IncludeAdminFile(
-				Loc::getMessage('HACK_BITUP24_UNINSTALL_TITLE'),
-				$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . $this->MODULE_ID . '/install/unstep2.php'
-			);
-		}
+		$this->uninstallDB();
+		$this->uninstallFiles();
+		$this->uninstallEvents();
 	}
 }

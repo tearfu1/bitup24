@@ -49,28 +49,35 @@ class bitup24 extends CModule
 	public function installFiles(): void
 	{
 		CopyDirFiles(
-			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/up.glyph/install/components',
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bitup24/install/components',
 			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/components/',
 			true,
 			true
 		);
 
 		CopyDirFiles(
-			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/up.glyph/install/templates',
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bitup24/install/templates',
 			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/templates/',
 			true,
 			true
 		);
 
 		CopyDirFiles(
-			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/up.glyph/install/routes',
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bitup24/install/views',
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/views/',
+			true,
+			true
+		);
+
+		CopyDirFiles(
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bitup24/install/routes',
 			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/routes/',
 			true,
 			true
 		);
 
 		CopyDirFiles(
-			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/up.glyph/install/js',
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bitup24/install/js',
 			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/js/',
 			true,
 			true

@@ -146,4 +146,34 @@ class BitUpRepository
 		$this->db->query($sql);
 		return (int)$this->db->getInsertedId();
 	}
+
+	/**
+	 * Получить данные одного события по ID
+	 *
+	 * @param int $eventId
+	 * @return array|null
+	 */
+	public function getEventById(int $eventId): ?array
+	{
+		$eventId = (int)$eventId;
+		$sql = "
+			SELECT 
+				e.id, e.name, e.description, e.start_date, e.end_date, 
+				e.location, e.points_for_visit, e.max_participants
+			FROM b_bitup_events e
+			WHERE e.id = {$eventId}
+			  AND e.status = 'active'
+		";
+
+		$event = $this->db->query($sql)->fetch();
+		if (!$event) {
+			return null;
+		}
+
+		// Дополним статистикой участников
+		$stats = $this->getChallengeStats($eventId);
+		$event['APPROVED_PARTICIPANTS'] = $stats['approved_participants'];
+
+		return $event;
+	}
 }

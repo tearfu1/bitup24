@@ -58,7 +58,18 @@ final class BitUp24 extends Controller
 
 	public function viewDetailAction(int $eventId): View
 	{
-		return $this->renderView('bitup24/detail');
+		$service = new EventService();
+		$event = $service->getEventDetail($eventId);
+
+		if (!$event) {
+			throw new \Bitrix\Main\SystemException("Событие с ID {$eventId} не найдено");
+		}
+
+		// Передаем данные в шаблон
+		return $this->renderView(
+			'bitup24/detail',
+			['EVENT' => $event]
+		);
 	}
 
 	public function getCardsAction(): array

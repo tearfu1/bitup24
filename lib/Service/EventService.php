@@ -130,5 +130,17 @@ final class EventService
 		return $result;
 	}
 
+	/**
+	 * Получить детальные данные события
+	 *
+	 * @param int $eventId
+	 * @return array|null
+	 */
+	public function getEventDetail(int $eventId): ?array
+	{
+		return $this->repository->getEventById($eventId);
+	}
+
+
 
 }

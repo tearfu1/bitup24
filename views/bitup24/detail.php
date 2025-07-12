@@ -1,11 +1,22 @@
-<?php ?>
+<?php
+// detail.php (шаблон)
+if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
+	die();
+}
+
+$eventId = isset($_GET['eventId']) ? (int)$_GET['eventId'] : 0;
+if ($eventId <= 0) {
+	throw new \Bitrix\Main\SystemException("Не передан eventId");
+}
+
+$event = (new \Bitrix\BitUp24\Service\EventService())->getEventDetail($eventId);
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Событие - Йога-ланч</title>
-	<link rel="stylesheet" href="styles.css">
+	<title>Событие - <?= htmlspecialchars($event['name'], ENT_QUOTES) ?></title>
 	<style>
 		* {
 			margin: 0;
@@ -277,76 +288,64 @@
 	</style>
 </head>
 <body>
-<!-- Header with green background -->
-<header class="header">
-	<div class="header-background"></div>
-</header>
 
-<!-- Main content -->
 <main class="main-content">
 	<div class="container">
-		<!-- Page title -->
-		<h1 class="page-title">Событие</h1>
-
-		<!-- Navigation tabs -->
 		<nav class="tabs">
 			<button class="tab-button active">Общая информация</button>
-			<button class="tab-button">Рейтинг</button>
 		</nav>
 
-		<!-- Event content -->
 		<div class="event-content">
-			<!-- Left column -->
 			<div class="left-column">
-				<!-- Event info card -->
 				<div class="event-card">
 					<div class="event-header">
 						<span class="event-label">Название</span>
-						<h2 class="event-title">Йога-ланч</h2>
+						<h2 class="event-title"><?= $event['name'] ?></h2>
 					</div>
 
 					<div class="event-details">
 						<div class="detail-row">
 							<span class="detail-label">Даты проведения:</span>
-							<span class="detail-value">17 августа 2025 г. (10:15) - 23 августа 2025 г. (10:15)</span>
+							<span class="detail-value">
+                                <?= $event['start_date']->toString() ?>
+
+                                <?php if ($event['END_DATE']): ?>
+									<?= $event['end_date']->toString() ?>
+								<?php else: ?>
+
+								<?php endif; ?>
+                            </span>
 						</div>
 						<div class="detail-row">
-							<span class="detail-label">Количество участников:</span>
-							<span class="detail-value">33 (из 35)</span>
+							<span class="detail-label">Участники:</span>
+							<span class="detail-value">
+                                <?= (int)$event['APPROVED_PARTICIPANTS'] ?> из <?= (int)$event['max_participants'] ?>
+                            </span>
 						</div>
 						<div class="detail-row">
-							<span class="detail-label">Зарядка за событие:</span>
-							<span class="detail-value">5</span>
+							<span class="detail-label">Баллы за участие:</span>
+							<span class="detail-value"><?= (int)$event['points_for_visit'] ?></span>
 						</div>
 					</div>
 
 					<div class="location-section">
 						<h3 class="location-title">Место проведения</h3>
-						<div class="map-container">
-							<div class="map-placeholder">
-								<div class="map-pin"></div>
-							</div>
-						</div>
+						<input
+							type="text"
+							class="detail-value"
+							readonly
+							value="<?= htmlspecialchars($event['location'], ENT_QUOTES) ?>"
+							style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;"
+						>
 					</div>
 				</div>
 			</div>
 
-			<!-- Right column -->
 			<div class="right-column">
 				<div class="description-card">
 					<h3 class="description-title">Описание</h3>
 					<div class="description-content">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam tincidunt ipsum nulla, lobortis dapibus neque sollicitudin sed. Fusce cursus erat vitae metus accumsan placerat. Mauris et elementum mauris, sit amet vulputate felis. Suspendisse potenti. Quisque sagittis ultrices quam eget rhoncus. Nullam nec tempus nibh. Curabitur tellus leo, lobortis a massa et, tristique aliquet mi. Etiam lacinia pulvinar tortor at condimentum. In erat velit, suscipit non turpis sed, eleifend suscipit eros. Etiam interdum ipsum sapien, sit amet finibus urna pharetra nec.</p>
-
-						<p>Nullam bibendum velit at mauris vulputate luctus quis a tellus. Aliquam non neque turpis. Vestibulum nisl erat, semper ac venenatis eget, ultrices non lectus. Nulla interdum justo eget nisl tempor venenatis.</p>
-
-						<ol>
-							<li><strong>Cras diam erat, finibus at dictum nec, varius suscipit ligula.</strong></li>
-							<li><strong>Ut odio odio, consectetur at orci et, eleifend varius nunc.</strong></li>
-							<li><strong>Sed orci est, mollis cursus porta sit amet, molestie et risus. Integer eget lorem a mauris dignissim ullamcorper.</strong></li>
-						</ol>
-
-						<p>Nulla blandit ligula vel turpis molestues, vel efficitur sapien porttitor. Ut maximus sollicitudin dolor in volupat. Etiam vestibulum ac odio in hendrerit. Vestibulum pretium vestibulum vehicula. Duis fermentum lorem eget libero commodo efficitur. Pellentesque et velit enim, finibus efficitur mi nec, vestibulum at elit. Donec gravida risus ligula, nec pretium magna et netus et malesuada fames ac turpis egestas. Donec tincidunt massa sed faucibus mattis. Aliquam posuere fermentum leo, in tempus nulla varius vehicula. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+						<?= nl2br(htmlspecialchars($event['description'], ENT_QUOTES)) ?>
 					</div>
 				</div>
 			</div>

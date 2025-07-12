@@ -1,4 +1,5 @@
-DROP TABLE IF EXISTS `event_registrations`;
-DROP TABLE IF EXISTS `events`;
-DROP TABLE IF EXISTS `user_roles`;
-DROP TABLE IF EXISTS `roles`;
+DROP TABLE IF EXISTS `b_bitup_event_registrations`;
+DROP TABLE IF EXISTS `b_bitup_events`;
+DROP TABLE IF EXISTS `b_bitup_user_roles`;
+DROP TABLE IF EXISTS `b_bitup_user_points`;
+DROP TABLE IF EXISTS `b_bitup_roles`;

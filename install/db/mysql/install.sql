@@ -1,23 +1,24 @@
-CREATE TABLE IF NOT EXISTS `roles` (
+CREATE TABLE IF NOT EXISTS `b_bitup_roles` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255) NOT NULL,
 	`code` VARCHAR(50) NOT NULL,
 	PRIMARY KEY (`id`),
 	);
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `b_bitup_user_points` (
 	`id` INT NOT NULL AUTO_INCREMENT,
+	`user_id` INT NOT NULL,
 	`points_balance` INT NOT NULL DEFAULT 0,
 	PRIMARY KEY (`id`),
 	);
 
-CREATE TABLE IF NOT EXISTS `user_roles` (
+CREATE TABLE IF NOT EXISTS `b_bitup_user_roles` (
 		`user_id` INT NOT NULL,
 		`role_id` INT NOT NULL,
 	PRIMARY KEY (`user_id`, `role_id`),
 	);
 
-CREATE TABLE IF NOT EXISTS `events` (
+CREATE TABLE IF NOT EXISTS `b_bitup_events` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255) NOT NULL,
 	`description` TEXT NULL,
@@ -31,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `events` (
 	PRIMARY KEY (`id`),
 	);
 
-CREATE TABLE IF NOT EXISTS `event_registrations` (
+CREATE TABLE IF NOT EXISTS `b_bitup_event_registrations` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`event_id` INT NOT NULL,
 	`user_id` INT NOT NULL,

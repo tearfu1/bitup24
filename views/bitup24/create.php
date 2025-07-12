@@ -1,3 +1,12 @@
+<?php
+
+
+global $APPLICATION;
+
+$APPLICATION->SetTitle("BitUp24");
+
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>

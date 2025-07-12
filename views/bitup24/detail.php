@@ -4,6 +4,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
 	die();
 }
 
+
+global $APPLICATION;
+
+$APPLICATION->SetTitle("BitUp24 Детальная страница");
+
+
 $eventId = isset($_GET['eventId']) ? (int)$_GET['eventId'] : 0;
 if ($eventId <= 0) {
 	throw new \Bitrix\Main\SystemException("Не передан eventId");

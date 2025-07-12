@@ -1,3 +1,10 @@
+<?php
+
+global $APPLICATION;
+
+$APPLICATION->SetTitle("BitUp24");
+?>
+
 <style>
 	/* Основные стили для карточки события */
 	.bitup-event-card {

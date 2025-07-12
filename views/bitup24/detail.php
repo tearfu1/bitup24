@@ -290,6 +290,50 @@ $event = (new \Bitrix\BitUp24\Service\EventService())->getEventDetail($eventId);
 				gap: 4px;
 			}
 		}
+
+		.custom-button {
+			background-color: #41a65e;
+			color: white;
+			border: none;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 5px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -1px 0 rgba(0, 0, 0, 0.2) inset;
+		}
+
+		.custom-button:hover {
+			background-color: #378c4e;
+		}
+
+		.join-button {
+			padding: 15px;
+			opacity: 0.9;
+			color: white;
+			background-color: #41a65e;
+			border: none;
+			border-radius: 15px;
+			height: 60px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 24px;
+			cursor: pointer;
+			position: relative;
+		}
+
+		.join-text {
+			position: absolute;
+			top: 70px;
+			font-size: 16px;
+			color: white;
+			text-align: center;
+			width: 100%;
+		}
 	</style>
 </head>
 <body>
@@ -353,9 +397,31 @@ $event = (new \Bitrix\BitUp24\Service\EventService())->getEventDetail($eventId);
 						<?= nl2br(htmlspecialchars($event['description'], ENT_QUOTES)) ?>
 					</div>
 				</div>
+
+				<div style="text-align: center; margin-top: 50px;">
+					<button class="join-button" onclick="joinEvent()">
+						<span>+ Присоединиться</span>
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
 </main>
 </body>
 </html>
+
+<script>
+	function joinEvent() {
+		BX.ajax.runAction('bitup24.api.BitUp24.registerForEvent', {
+			data: {
+				eventId: <?= $eventId ?>
+			}
+		})
+			.then((response) => {
+				console.log('Успешно:', response);
+			})
+			.catch((error) => {
+				console.error('Ошибка:', error);
+			});
+	}
+</script>

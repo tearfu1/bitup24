@@ -74,23 +74,22 @@ final class BitUp24 extends Controller
 
 	public function getCardsAction(): array
 	{
-		return [
-				[
-					"title" => 'aa33333aa',
-					"date" => '123',
-					"participantsCount" => '123321',
-				],
-				[
-					"title" => 'aa33333aa',
-					"date" => '123',
-					"participantsCount" => '123321',
-				],
-				[
-					"title" => 'aa33333aa',
-					"date" => '123',
-					"participantsCount" => '123321',
-				],
-		];
+		$userId = CurrentUser::get()->getId();
+		$service = new EventService();
+
+		$events = $service->getDashboardData($userId)['challenges'];
+
+		$resultEventsData = [];
+		foreach ($events as $event)
+		{
+			$resultEventsData[] = [
+				"title" => $event['name'],
+				"description" => $event['description'],
+				"participantsCount" => $event['approved_participants'],
+			];
+		}
+
+		return $resultEventsData;
 	}
 
 	public function getDashboardAction(): array

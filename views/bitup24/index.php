@@ -242,6 +242,11 @@
 		height: 150px; /* Это значение должно быть таким же, как у стрелок */
 		/* Другие стили */
 	}
+
+	.bitup-card-link {
+		text-decoration: none; /* Убирает подчеркивание */
+		color: inherit; /* Наследует цвет родителя */
+	}
 </style>
 
 <div class="scroll-container">
@@ -279,18 +284,19 @@
 		const cards = response.data; // Предполагаем, что данные находятся в response.data
 
 		cards.forEach(card => {
-			// Создаем новый div для каждой карточки
-			const cardDiv = document.createElement('div');
+			let cardDiv = document.createElement('div'); // Создайте div-элемент
 			cardDiv.classList.add('bitup-event-card');
 
 			// Заполняем данными
 			cardDiv.innerHTML = `
+			<a class="bitup-card-link" href="/bitup24/event/${escapeHtml(card.id)}/">
             <div class="bitup-event-card__title">${escapeHtml(card.title)}</div>
             <div class="bitup-event-card__date">${escapeHtml(card.date)}</div>
             <div class="bitup-event-card__participants">
                 <div class="bitup-event-card__participants-icon">👥</div>
                 <div class="bitup-event-card__participants-count">${escapeHtml(card.participantsCount) || 0}</div>
             </div>
+			</a>
         `;
 
 			// Добавляем созданный div в контейнер

@@ -83,6 +83,7 @@ final class BitUp24 extends Controller
 		foreach ($events as $event)
 		{
 			$resultEventsData[] = [
+				"id" => $event['id'],
 				"title" => $event['name'],
 				"description" => $event['description'],
 				"participantsCount" => $event['approved_participants'],

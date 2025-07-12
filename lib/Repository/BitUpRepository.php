@@ -225,7 +225,6 @@ class BitUpRepository
 			'user_id' => $userId,
 			'event_id' => $eventId,
 			'status' => 'approved',
-			'registration_date' => $now
 		];
 
 		return $this->db->add('b_bitup_event_registrations', $fields);

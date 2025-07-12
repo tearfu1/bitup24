@@ -284,6 +284,104 @@ $APPLICATION->SetTitle("BitUp24");
 	<div class="scroll-button right">&#9654;</div>
 </div>
 
+<style>
+	.bitup-slider {
+		position: relative;
+		width: 100vw;                      /* именно весь viewport */
+		margin: 0 calc(-50vw + 50%);       /* центрируем в контейнере */
+		overflow: hidden;
+	}
+
+	/* 2) Трек растянем под три слайда */
+	.bitup-slider-track {
+		display: flex;
+		transition: transform 0.5s ease;
+		margin-top: 50px;
+	}
+
+	/* 3) Каждый слайд — ровно 100% от .bitup-slider */
+	.bitup-slide {
+		flex: 0 0 100%;                    /* занимать 100% от родителя (.bitup-slider) */
+	}
+	.bitup-slide img {
+		display: block;
+		width: 100%;
+		height: 350px;
+		object-fit: contain
+	}
+
+	/* Точки */
+	.bitup-slider-dots {
+		text-align: center;
+		margin-top: 10px;
+	}
+	.bitup-slider-dot {
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: #ccc;
+		margin: 0 6px;
+		cursor: pointer;
+		transition: background 0.3s;
+	}
+	.bitup-slider-dot.active {
+		background: #333;
+	}
+</style>
+
+<div class="bitup-slider">
+	<div class="bitup-slider-track">
+		<div class="bitup-slide">
+			<img src="/bitrix/js/crm/entity-editor/css/images/image1.png" alt="Описание 1">
+		</div>
+		<div class="bitup-slide">
+			<img src="/bitrix/js/crm/entity-editor/css/images/image2.png" alt="Описание 2">
+		</div>
+		<div class="bitup-slide">
+			<img src="/bitrix/js/crm/entity-editor/css/images/image3.png" alt="Описание 3">
+		</div>
+	</div>
+</div>
+<div class="bitup-slider-dots">
+	<span class="bitup-slider-dot active" data-index="0"></span>
+	<span class="bitup-slider-dot" data-index="1"></span>
+	<span class="bitup-slider-dot" data-index="2"></span>
+</div>
+
+<script>
+	(function() {
+		const track = document.querySelector('.bitup-slider-track');
+		const dots = Array.from(document.querySelectorAll('.bitup-slider-dot'));
+		const slider = document.querySelector('.bitup-slider');
+		let current = 0;
+
+		function goToSlide(index) {
+			current = index;
+			// смещаем трек на количество экранов, а не процентов трека:
+			const offset = index * slider.clientWidth;
+			track.style.transform = `translateX(${-offset}px)`;
+			dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+		}
+
+		dots.forEach(dot => {
+			dot.addEventListener('click', () => {
+				goToSlide(parseInt(dot.dataset.index, 10));
+			});
+		});
+
+		let auto = setInterval(() => {
+			goToSlide((current + 1) % dots.length);
+		}, 5000);
+
+		slider.addEventListener('mouseenter', () => clearInterval(auto));
+		slider.addEventListener('mouseleave', () => {
+			auto = setInterval(() => goToSlide((current + 1) % dots.length), 5000);
+		});
+	})();
+
+</script>
+
 <script>
 	function escapeHtml(text) {
 		const div = document.createElement('div');
